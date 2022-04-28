@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:personal_expense/core/app_colors.dart';
 import '../core/app_images.dart';
 import '../models/transaction.dart';
 import 'package:intl/intl.dart';
@@ -17,28 +18,25 @@ class TransactionsListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.zero,
-      height: 300,
-      child: transactions.isEmpty
-          ? Column(
-              children: [
-                const SizedBox(height: 20),
-                const Text('Nenhuma Transação Cadastrada'),
-                const SizedBox(height: 20),
-                SizedBox(
-                    height: 200,
-                    child: Image.asset(
-                      AppImages.waiting,
-                      fit: BoxFit.contain,
-                    )),
-              ],
-            )
-          : ListView.builder(
-              itemCount: transactions.length,
-              itemBuilder: _buildItem,
-            ),
-    );
+    return transactions.isEmpty
+        ? LayoutBuilder(
+            builder: ((context, constraints) => Column(
+                  children: [
+                    const SizedBox(height: 20),
+                    const Text('Nenhuma Transação Cadastrada'),
+                    const SizedBox(height: 20),
+                    SizedBox(
+                        height: constraints.maxHeight * 0.7,
+                        child: Image.asset(
+                          AppImages.waiting,
+                          fit: BoxFit.contain,
+                        )),
+                  ],
+                )))
+        : ListView.builder(
+            itemCount: transactions.length,
+            itemBuilder: _buildItem,
+          );
   }
 
   Widget _buildItem(BuildContext context, int index) {
